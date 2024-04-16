@@ -18,20 +18,36 @@
 # docker run -d --name my-mongodb mongo
 # docker run -d -p 3000:3000 --link my-mongodb:mongodb --name nodeapp danwahlin/nodeapp
 
-FROM        node:alpine
+# FROM        node:alpine
 
-LABEL       author="Dan Wahlin"
+# LABEL       author="Dan Wahlin"
 
-ARG         PACKAGES=nano
+# ARG         PACKAGES=nano
 
-ENV         TERM xterm
-RUN         apk update && apk add $PACKAGES
+# ENV         TERM xterm
+# RUN         apk update && apk add $PACKAGES
 
-WORKDIR     /var/www
-COPY        package*.json ./
-RUN         npm install
+# WORKDIR     /var/www
+# COPY        package*.json ./
+# RUN         npm install
 
-COPY        . ./
-EXPOSE      3000
+# COPY        . ./
+# EXPOSE      3000
 
-ENTRYPOINT  ["npm", "start"]
+# ENTRYPOINT  ["npm", "start"]
+
+FROM node:alpine
+
+LABEL author="Ibukun Alade"
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+WORKDIR /var/www
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . ./
+EXPOSE $PORT
+
+ENTRYPOINT [ "npm", "start" ]
